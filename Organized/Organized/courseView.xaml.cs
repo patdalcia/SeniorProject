@@ -109,6 +109,7 @@ namespace Organized
                 button.Click += assignmentClick;
                 assingmentListPanel.Children.Add(button);
             }
+            
         }
 
         private void addAssignmentClick(Object sender, RoutedEventArgs e)
@@ -126,9 +127,10 @@ namespace Organized
         {
             Trace.WriteLine("CLick");
             Assignment a = (Assignment)(sender as Button).Tag;
-            assignmentView assignmentView = new assignmentView(a);
-            var updatedCourse =assignmentView.ShowDialog();
-            
+            //assignmentView assignmentView = new assignmentView(a);
+            //var updatedCourse =assignmentView.ShowDialog();
+            assignmentDetailsPage assignmentDetailsPage = new assignmentDetailsPage(a);
+            assignmentDetailsFrame.Content = assignmentDetailsPage;
         }
 
         private void getUpcomingAssignments()

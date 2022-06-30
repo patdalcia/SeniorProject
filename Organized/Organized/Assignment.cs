@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Organized
 {
     
-    public class Assignment
+    public class Assignment 
     {
         public String name { get; set; }
         public String description { get; set; }

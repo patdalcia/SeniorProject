@@ -48,3 +48,5 @@ C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Debug\net6.0-wind
 C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Debug\net6.0-windows\assignmentView.baml
 C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Debug\net6.0-windows\addAssignment.g.cs
 C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Debug\net6.0-windows\addAssignment.baml
+C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Debug\net6.0-windows\assignmentDetailsPage.g.cs
+C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Debug\net6.0-windows\assignmentDetailsPage.baml

@@ -201,6 +201,13 @@
             <Border.Effect>
                 <DropShadowEffect/>
             </Border.Effect>
+
+            <Frame x:Name="assignmentDetailsFrame"
+                   Background="White"
+                   NavigationUIVisibility="Hidden">
+                
+            </Frame>
+            
         </Border>
 
         <Label Content="Time Sensitive: These Assingments are DUE soon!" 
