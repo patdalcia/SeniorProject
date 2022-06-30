@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\thegr\SeniorProject\Organized\Organized\obj\Debug\net6.0-windows\
+C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Debug\net6.0-windows\
 Organized
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\thegr\SeniorProject\Organized\Organized\App.xaml
-11407045341
+C:\Users\thegr\Senior_Project\Organize\Organized\Organized\App.xaml
+5-771177241
 
-8-25564632
-1941645785384
-MainWindow.xaml;
+12765222170
+194-97651837
+addAssignment.xaml;addCourse.xaml;assignmentView.xaml;courseView.xaml;MainWindow.xaml;
 
 False
 

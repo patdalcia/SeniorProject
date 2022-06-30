@@ -19,5 +19,15 @@ namespace Organized
         {
             return service.getCourses();
         }
+
+        public bool addCourse(Course course)
+        {
+            return service.addCourse(course);
+        }
+
+        public Course addAssignment(Course course, Assignment assignment)
+        {
+            return service.addAssignment(course, assignment);
+        }
     }
 }

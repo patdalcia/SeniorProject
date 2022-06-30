@@ -5,18 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Organized"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="900"
+        MinHeight="300" MinWidth="650" Height="700" Width="950"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="ToolWindow">
+        WindowStyle="SingleBorderWindow">
     <Window.Resources>
+        
+        <!-- Custom brush stylings -->
         <SolidColorBrush x:Key="backgroundBrush" Color="Black"/>
+
+        <LinearGradientBrush x:Key="gradientBackgroundBrush" StartPoint="1,0" EndPoint="0.5,1">
+            <GradientStop Color="Black" Offset="0" />
+            <GradientStop Color="DimGray" Offset="1"/>
+        </LinearGradientBrush>
+
         <!-- Button Styling -->
-        <Style TargetType="{x:Type Button}">
+        <Style TargetType="{x:Type Button}" x:Key="roundedCornerButtonStyle">
             <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Gold"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="1">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Gold" BorderThickness="2">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </ControlTemplate>
@@ -24,44 +33,89 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red"/>
+                    <Setter Property="Background" Value="Gray"/>
+                    <Setter Property="Opacity" Value="1"/>
                 </Trigger>
             </Style.Triggers>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                    <Setter Property="Opacity" Value="0.4"/>
+                </Style>
+            </Style.Resources>
         </Style>
+
+
     </Window.Resources>
-    <Grid ShowGridLines="True"
-          Background="{StaticResource backgroundBrush}">
+    <Grid ShowGridLines="False"
+          Background="{StaticResource gradientBackgroundBrush}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="384.04"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
        <!--Nav Bar -->
-        <StackPanel HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-            <Button Content="Organized" 
-                    Width="70" 
-                    Height="40"
-                    Background="Transparent"
-                    Foreground="Gold"
-                    BorderBrush="Transparent"
-                    Click="Logo_Click"
-                    />
-        </StackPanel>
-        
-        <!-- Left Side NavBar -->
-        <StackPanel x:Name="CoursesNavPanel"
-                    Grid.Row="1"
+        <StackPanel Grid.Row="0"
+                    Grid.RowSpan="2"
                     Grid.Column="0"
-                    Width="150"
-                    Height="384.04"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top">
+                    Grid.ColumnSpan="2">
+            <Image Source="Images/resizedLogo.png" />
+
+        </StackPanel>
+
+        <Separator BorderBrush="Gold"
+                   BorderThickness="0,0,0,1"
+                   Grid.Row="1"
+                   Grid.ColumnSpan="8"
+                   VerticalAlignment="Bottom"/>
+
+        <Button 
+                Content="Add Course"
+                Grid.Row="1"
+                Grid.Column="5"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                Foreground="Gold"
+                FontSize="15"
+                BorderBrush="Transparent"
+                Click="addCourse">
             
+        </Button>
+
+
+
+
+
+
+
+        <!-- Left Side NavBar -->
+
+        <StackPanel x:Name="CoursesNavPanel"
+                   Grid.Row="2"
+                   Grid.RowSpan="7"
+                   Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Margin="10,10,10,10"
+                   >
+            <TextBlock Text="Courses"
+                       HorizontalAlignment="Center"
+                       Foreground="Gold"/>
 
         </StackPanel>
 

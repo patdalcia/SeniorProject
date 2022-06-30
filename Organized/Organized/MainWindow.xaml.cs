@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,64 +39,89 @@ namespace Organized
         {
             List<Course> courseList = service.getCourses();
 
-            foreach (Course course in courseList)
+            CoursesNavPanel.Children.Clear();
+
+            TextBlock courseHeader = new TextBlock()
             {
-                Button button = new Button()
+                Text = "Courses",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Foreground = Brushes.Gold,
+                FontSize = 20
+            };
+
+            CoursesNavPanel.Children.Add(courseHeader);
+
+            if(courseList.Count > 0)
+            {
+                foreach (Course course in courseList)
                 {
-                    Foreground = Brushes.Gold,
-                    BorderBrush = Brushes.Gold
-                };
+                    Button button = new Button()
+                    {
+                        MinHeight = 50,
+                        MinWidth = 70,
+                        FontSize = 10,
+                        Margin = new Thickness(0, 0, 5, 5),
+                        Style = (Style)Resources["roundedCornerButtonStyle"],
+                        Tag = course,
+                        
+                    };
+                    button.Click += courseClick;
 
+                    StackPanel card = new StackPanel()
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
 
-                StackPanel card = new StackPanel()
+                    };
+
+                    TextBlock nameBlock = new TextBlock()
+                    {
+                        Text = course.name,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    card.Children.Add(nameBlock);
+                    button.Content = card;
+
+                    CoursesNavPanel.Children.Add(button);
+                }
+            }
+            else
+            {
+                TextBlock text = new TextBlock()
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    
-                };
-
-                TextBlock nameBlock = new TextBlock() 
-                { 
-                  Text = course.getName(),
-                  HorizontalAlignment = HorizontalAlignment.Center,
-                  VerticalAlignment= VerticalAlignment.Center
-                };
-
-                TextBlock descriptionBlock = new TextBlock() 
-                { 
-                    Text= course.getDescription() ,
+                    Text = "You have no ACTIVE Courses",
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center
                 };
-
-                TextBlock dateBlock = new TextBlock() 
-                { 
-                    Text = course.getStartDate() + " - " + course.getEndDate(), 
-                    HorizontalAlignment= HorizontalAlignment.Center,
-                    VerticalAlignment =  VerticalAlignment.Center
-                };
-
-                card.Children.Add(nameBlock);
-                card.Children.Add(descriptionBlock);
-                card.Children.Add(dateBlock);
-                button.Content = card;
-                CoursesNavPanel.Children.Add(button);
+                CoursesNavPanel.Children.Add(text);
             }
         }
 
-        private StackPanel generateCard(Course course)
+        private void addCourse(object sender, RoutedEventArgs e)
         {
-            StackPanel wrapperCard = new StackPanel() { HorizontalAlignment= HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };    
-            StackPanel card = new StackPanel() { HorizontalAlignment= HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+            addCourse addCourseView = new addCourse();
 
-            Button button = new Button() { Content = course.getName() + "\n" + course.getDescription() + "\n" + course.getStartDate() + " - " + course.getEndDate() };
-            button.HorizontalAlignment = HorizontalAlignment.Center;
-            button.VerticalAlignment = VerticalAlignment.Center;
+            addCourseView.ShowDialog();
+            
+            Populate_Course_List();
+        }
 
-            //card.Children.Add(button);
-            CoursesNavPanel.Children.Add(button);
-         
-            return card;
+        private void courseClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Course course = (sender as Button).Tag as Course;
+                Trace.WriteLine(JsonSerializer.Serialize(course));
+                courseView courseView = new courseView(course);
+                courseView.DataContext = this;
+                courseView.ShowDialog();
+            }
+            catch(Exception exception)
+            {
+                Trace.WriteLine(exception.ToString());
+            }
         }
     }
 }

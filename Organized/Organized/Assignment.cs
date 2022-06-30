@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 namespace Organized
 {
     
-    internal class Assignment
+    public class Assignment
     {
-        private String name;
-        private String description;
-        private String due_date;
-        private bool completed;
+        public String name { get; set; }
+        public String description { get; set; }
+        public String due_date { get; set; }
+        public bool completed { get; set; }
 
         public Assignment()
         {
@@ -25,46 +25,6 @@ namespace Organized
             this.description = description;
             this.due_date = due_date;
             this.completed = completed;
-        }
-
-        public String getName()
-        {
-            return this.name;
-        }
-
-        public void setName(String name)
-        {
-            this.name =name;    
-        }
-
-        public String getDescription()
-        {
-            return this.description;
-        }
-
-        public void setDescription(String description)
-        {
-            this.description=description;   
-        }
-
-        public String getDueDate(String due_date)
-        {
-            return this.due_date;
-        }
-
-        public void setDueDate(String due_date)
-        {
-            this.due_date=due_date; 
-        }
-
-        public bool getCompleted()
-        {
-            return this.completed;
-        }
-
-        public void setCompleted(bool completed)
-        {
-            this.completed=completed;
         }
     }
 }
