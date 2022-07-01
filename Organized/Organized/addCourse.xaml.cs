@@ -31,17 +31,7 @@ namespace Organized
         {
             try
             {
-                //Mock Assignment
-                Assignment assignment = new Assignment()
-                {
-                    name = "Test",
-                    description = "Test",
-                    due_date = "1/1/2001",
-                    completed = false
-                };
-
                 List<Assignment> aList = new List<Assignment>();
-                aList.Add(assignment);
 
                 Course course = new Course()
                 {

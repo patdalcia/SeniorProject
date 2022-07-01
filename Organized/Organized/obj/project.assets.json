@@ -9,22 +9,23 @@
   },
   "packageFolders": {
     "C:\\Users\\thegr\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thegr\\Senior_Project\\Organize\\Organized\\Organized\\Organized.csproj",
+      "projectUniqueName": "C:\\Users\\thegr\\SeniorProject\\SeniorProject\\Organized\\Organized\\Organized.csproj",
       "projectName": "Organized",
-      "projectPath": "C:\\Users\\thegr\\Senior_Project\\Organize\\Organized\\Organized\\Organized.csproj",
+      "projectPath": "C:\\Users\\thegr\\SeniorProject\\SeniorProject\\Organized\\Organized\\Organized.csproj",
       "packagesPath": "C:\\Users\\thegr\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thegr\\Senior_Project\\Organize\\Organized\\Organized\\obj\\",
+      "outputPath": "C:\\Users\\thegr\\SeniorProject\\SeniorProject\\Organized\\Organized\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\thegr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -67,7 +68,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

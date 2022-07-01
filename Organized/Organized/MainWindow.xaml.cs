@@ -23,10 +23,23 @@ namespace Organized
     public partial class MainWindow : Window
     {
         private businessService service;
+        private CourseViewModel courseViewModel;
         public MainWindow()
         {
-            InitializeComponent();
+            courseViewModel = new CourseViewModel();
+            DataContext = courseViewModel;
+
+            courseViewModel.Name = "";
+            courseViewModel.Description = "";
+            courseViewModel.StartDate = "";
+            courseViewModel.EndDate = "";
+            courseViewModel.Professor = "";
+            courseViewModel.Assignments = new List<Assignment>();
+
             service = new businessService();
+
+            InitializeComponent();
+            populateCourseInformationPanel();
             Populate_Course_List();
         }
 
@@ -38,65 +51,90 @@ namespace Organized
         private void Populate_Course_List()
         {
             List<Course> courseList = service.getCourses();
+            courseListPanel.Children.Clear();
 
-            CoursesNavPanel.Children.Clear();
-
-            TextBlock courseHeader = new TextBlock()
+            foreach (Course course in courseList)
             {
-                Text = "Courses",
-                HorizontalAlignment = HorizontalAlignment.Center,
+                Button button = new Button();
+                button.Content = course.name;
+                courseListPanel.Children.Add(button);
+            }
+        }
+
+        private void populateCourseInformationPanel()
+        {
+            List<Course> courseList = service.getCourses();
+
+            /* Setting Course Header Information */
+            StackPanel courseInformationPanel = new StackPanel();
+            courseInformationBorder.Child = courseInformationPanel;
+
+            //Course Name Label
+            Label nameLabel = new Label()
+            {
+                FontSize = 30,
+                FontWeight = FontWeights.SemiBold,
                 Foreground = Brushes.Gold,
-                FontSize = 20
+                Margin = new Thickness(2),
+                Padding = new Thickness(1),
             };
+            var nameBindingObject = new Binding("Name");
+            nameLabel.SetBinding(Label.ContentProperty, nameBindingObject);
 
-            CoursesNavPanel.Children.Add(courseHeader);
-
-            if(courseList.Count > 0)
+            //Course Description Label
+            Label descriptionLabel = new Label()
             {
-                foreach (Course course in courseList)
-                {
-                    Button button = new Button()
-                    {
-                        MinHeight = 50,
-                        MinWidth = 70,
-                        FontSize = 10,
-                        Margin = new Thickness(0, 0, 5, 5),
-                        Style = (Style)Resources["roundedCornerButtonStyle"],
-                        Tag = course,
-                        
-                    };
-                    button.Click += courseClick;
+                FontSize = 13,
+                FontWeight = FontWeights.ExtraLight,
+                Foreground = Brushes.Black,
+                Margin = new Thickness(2),
+                Padding = new Thickness(1)
+            };
+            var descriptionBindingObject = new Binding("Description");
+            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
 
-                    StackPanel card = new StackPanel()
-                    {
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center,
-
-                    };
-
-                    TextBlock nameBlock = new TextBlock()
-                    {
-                        Text = course.name,
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center
-                    };
-
-                    card.Children.Add(nameBlock);
-                    button.Content = card;
-
-                    CoursesNavPanel.Children.Add(button);
-                }
-            }
-            else
+            //Course professor label
+            Label professorLabel = new Label()
             {
-                TextBlock text = new TextBlock()
-                {
-                    Text = "You have no ACTIVE Courses",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                CoursesNavPanel.Children.Add(text);
-            }
+                FontSize = 13,
+                FontWeight = FontWeights.ExtraLight,
+                Foreground = Brushes.Black,
+                Margin = new Thickness(2),
+                Padding = new Thickness(1)
+            };
+            var professorBindingObject = new Binding("Professor");
+            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
+
+            //Course Start Date Label
+            Label startDateLabel = new Label()
+            {
+                FontSize = 13,
+                FontWeight = FontWeights.ExtraLight,
+                Foreground = Brushes.Black,
+                Margin = new Thickness(2),
+                Padding = new Thickness(1)
+            };
+            var startDateBindingObject = new Binding("StartDate");
+            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
+
+            //Coures End Date Label
+            Label endDateLabel = new Label()
+            {
+                FontSize = 13,
+                FontWeight = FontWeights.ExtraLight,
+                Foreground = Brushes.Black,
+                Margin = new Thickness(2),
+                Padding = new Thickness(1)
+            };
+            var endDateBindingObject = new Binding("EndDate");
+            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
+
+            /* Adding created Labels to Course Information Panel For Display */
+            courseInformationPanel.Children.Add(nameLabel);
+            courseInformationPanel.Children.Add(descriptionLabel);
+            courseInformationPanel.Children.Add(professorLabel);
+            courseInformationPanel.Children.Add(startDateLabel);
+            courseInformationPanel.Children.Add(endDateLabel);
         }
 
         private void addCourse(object sender, RoutedEventArgs e)

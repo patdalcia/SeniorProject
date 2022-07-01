@@ -155,8 +155,10 @@ namespace Organized
                 {
                     Button button = new Button()
                     {
-                        Content = a.name
+                        Content = a.name,
+                        Tag = a,    
                     };
+                    button.Click += assignmentClick;
                     upcomingAssignmentsPanel.Children.Add(button);
                 }
             }

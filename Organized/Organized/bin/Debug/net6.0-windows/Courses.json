@@ -1,1 +1,4 @@
 {"name":"test","description":"test","professor":"test","start_date":"6/29/2022","end_date":"7/9/2022","assignments":[{"name":"Test","description":"Test","due_date":"1/1/2001","completed":false},{"name":"Activity 1","description":"Learning C basics","due_date":"7/2/2022","completed":false},{"name":"Acrivity 2","description":"More Stuff about C","due_date":"7/4/2022","completed":false}]}
+{"name":"TEST","description":"TEST","professor":"TEST","start_date":"6/30/2022","end_date":"7/8/2022","assignments":[]}
+{"name":"hello","description":"hello","professor":"hello ","start_date":"6/30/2022","end_date":"7/9/2022","assignments":[]}
+{"name":"A","description":"A","professor":"A","start_date":"7/1/2022","end_date":"6/17/2022","assignments":[]}
