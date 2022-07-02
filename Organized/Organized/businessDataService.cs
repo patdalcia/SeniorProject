@@ -74,18 +74,18 @@ namespace Organized
                     String search = course.name;
                     var courseToBeUpdated = cList.Where(courseToBeUpdated => courseToBeUpdated.name == search).FirstOrDefault();
 
-                    if(cList.Where(courseToBeUpdated => courseToBeUpdated.name == search).FirstOrDefault() != null)
+                    foreach(Course c in cList)
                     {
-                        cList.Where(courseToBeUpdated => courseToBeUpdated.name == search).FirstOrDefault().assignments.Add(assignment);
+                        if (c.name == search)
+                        {
+                            c.assignments.Add(assignment);
+                            break;
+                        }
+                    }
 
-                        if(updateSavedCourses(cList))
-                        {
-                            return cList.Where(courseToBeUpdated => courseToBeUpdated.name == search).FirstOrDefault();
-                        }
-                        else
-                        {
-                            throw new Exception("Error: Could not add Assignment");
-                        }
+                    if (updateSavedCourses(cList))
+                    {
+                        return cList.Where(courseToBeUpdated => courseToBeUpdated.name == search).FirstOrDefault();
                     }
                     else
                     {
@@ -142,6 +142,78 @@ namespace Organized
                 return false;
             }
               
+        }
+
+        public Course deleteAssignment(String assignment, String course)
+        {
+            try
+            {
+                //Retrieving course List
+                List<Course> cList = this.getCourses();
+
+                var courseToEdit = cList.Single(r => r.name == course);
+                cList.Remove(courseToEdit);
+
+                var assignmentToRemove = courseToEdit.assignments.Single(r => r.name == assignment);
+                courseToEdit.assignments.Remove(assignmentToRemove);
+
+                cList.Add(courseToEdit);
+
+                if(updateSavedCourses(cList))
+                {
+                    return courseToEdit;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch(Exception exception)
+            {
+                Trace.WriteLine(exception.ToString());
+                return null ;
+            }
+            
+        }
+
+        public bool updateCourse(Course course)
+        {
+            //Retrieving course List
+            List<Course> cList = this.getCourses();
+
+            var courseToEdit = cList.Single(r => r.name == course.name);
+            cList.Remove(courseToEdit);
+
+            courseToEdit = course;
+
+            cList.Add(courseToEdit);
+
+            if(updateSavedCourses(cList))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool deleteCourse(Course course)
+        {
+            //Retrieving course List
+            List<Course> cList = this.getCourses();
+
+            var courseToEdit = cList.Single(r => r.name == course.name);
+            cList.Remove(courseToEdit);
+
+            if (updateSavedCourses(cList))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

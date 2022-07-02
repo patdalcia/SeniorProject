@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -22,12 +23,23 @@ namespace Organized
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static MainWindow Instance { get; private set;}
+
+
         private businessService service;
         private CourseViewModel courseViewModel;
+        private Course selectedCourse;
+
+        public assignmentDetailsPage assignmentDetailsPage;
+
         public MainWindow()
         {
+            selectedCourse = new Course();
+            
+
             courseViewModel = new CourseViewModel();
             DataContext = courseViewModel;
+          
 
             courseViewModel.Name = "";
             courseViewModel.Description = "";
@@ -39,8 +51,16 @@ namespace Organized
             service = new businessService();
 
             InitializeComponent();
-            populateCourseInformationPanel();
+
             Populate_Course_List();
+
+            assignmentDetailsPage = new assignmentDetailsPage();
+            assignmentDetailsPage.modelChanged += c_ModelChanged;
+            assignmentDetailsPage.modelDeleted += c_ModelDeleted;
+            
+            assignmentDetailsFrame.Content = assignmentDetailsPage;
+
+            Instance = this;
         }
 
         private void Logo_Click(object sender, RoutedEventArgs e)
@@ -53,88 +73,26 @@ namespace Organized
             List<Course> courseList = service.getCourses();
             courseListPanel.Children.Clear();
 
-            foreach (Course course in courseList)
+            if(courseList.Count > 0)
             {
-                Button button = new Button();
-                button.Content = course.name;
-                courseListPanel.Children.Add(button);
+                foreach (Course course in courseList)
+                {
+                    Button button = new Button();
+                    button.Content = course.name;
+                    button.Click += courseClick;
+                    button.Tag = course;
+                    courseListPanel.Children.Add(button);
+                }
             }
-        }
-
-        private void populateCourseInformationPanel()
-        {
-            List<Course> courseList = service.getCourses();
-
-            /* Setting Course Header Information */
-            StackPanel courseInformationPanel = new StackPanel();
-            courseInformationBorder.Child = courseInformationPanel;
-
-            //Course Name Label
-            Label nameLabel = new Label()
+            else
             {
-                FontSize = 30,
-                FontWeight = FontWeights.SemiBold,
-                Foreground = Brushes.Gold,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1),
-            };
-            var nameBindingObject = new Binding("Name");
-            nameLabel.SetBinding(Label.ContentProperty, nameBindingObject);
-
-            //Course Description Label
-            Label descriptionLabel = new Label()
-            {
-                FontSize = 13,
-                FontWeight = FontWeights.ExtraLight,
-                Foreground = Brushes.Black,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1)
-            };
-            var descriptionBindingObject = new Binding("Description");
-            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
-
-            //Course professor label
-            Label professorLabel = new Label()
-            {
-                FontSize = 13,
-                FontWeight = FontWeights.ExtraLight,
-                Foreground = Brushes.Black,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1)
-            };
-            var professorBindingObject = new Binding("Professor");
-            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
-
-            //Course Start Date Label
-            Label startDateLabel = new Label()
-            {
-                FontSize = 13,
-                FontWeight = FontWeights.ExtraLight,
-                Foreground = Brushes.Black,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1)
-            };
-            var startDateBindingObject = new Binding("StartDate");
-            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
-
-            //Coures End Date Label
-            Label endDateLabel = new Label()
-            {
-                FontSize = 13,
-                FontWeight = FontWeights.ExtraLight,
-                Foreground = Brushes.Black,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1)
-            };
-            var endDateBindingObject = new Binding("EndDate");
-            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
-
-            /* Adding created Labels to Course Information Panel For Display */
-            courseInformationPanel.Children.Add(nameLabel);
-            courseInformationPanel.Children.Add(descriptionLabel);
-            courseInformationPanel.Children.Add(professorLabel);
-            courseInformationPanel.Children.Add(startDateLabel);
-            courseInformationPanel.Children.Add(endDateLabel);
+                TextBlock text = new TextBlock()
+                {
+                    Text = "No Active Courses"
+                };
+                courseListPanel.Children.Add(text); 
+            }
+            
         }
 
         private void addCourse(object sender, RoutedEventArgs e)
@@ -146,20 +104,124 @@ namespace Organized
             Populate_Course_List();
         }
 
+        private void updateUpcomingAssignmentList()
+        {
+
+            upcomingAssignmentsPanel.Children.Clear();
+            List<Assignment> upcomingAssignments = new List<Assignment>();
+            CultureInfo provider = new CultureInfo("en-US");
+
+            if (selectedCourse.assignments != null)
+            {
+                foreach (Assignment a in selectedCourse.assignments)
+                {
+                    DateTime date = DateTime.Parse(a.due_date, provider,
+                    DateTimeStyles.AdjustToUniversal);
+
+                    if (date <= DateTime.Today.AddDays(5))
+                    {
+                        upcomingAssignments.Add(a);
+                    }
+                }
+                foreach (Assignment a in upcomingAssignments)
+                {
+                    Button button = new Button()
+                    {
+                        Content = a.name,
+                        Tag = a,
+                    };
+                    button.Click += assignmentClick;
+                    button.Margin = new Thickness(0, 0, 0, 0);
+                    button.Height = 8;
+                    upcomingAssignmentsPanel.Children.Add(button);
+                }
+            }
+            else
+            {
+                TextBlock textBlock = new TextBlock();
+                textBlock.Text = "No Assingments are due within 5 days, take a breather!";
+                upcomingAssignmentsPanel.Children.Add(textBlock);
+            }
+        }
+
         private void courseClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                Course course = (sender as Button).Tag as Course;
-                Trace.WriteLine(JsonSerializer.Serialize(course));
-                courseView courseView = new courseView(course);
-                courseView.DataContext = this;
-                courseView.ShowDialog();
+                /* Updating view model with selected course information */
+                selectedCourse = (sender as Button).Tag as Course;
+                courseViewModel.Name = selectedCourse.name;
+                courseViewModel.Description = selectedCourse.description;
+                courseViewModel.StartDate = selectedCourse.start_date;
+                courseViewModel.EndDate = selectedCourse.end_date;
+                courseViewModel.Professor = selectedCourse.professor;
+
+                assignmentDetailsPage.Course = selectedCourse;
+                assignmentDetailsPage.Update_List();
+
+                updateUpcomingAssignmentList();
             }
             catch(Exception exception)
             {
                 Trace.WriteLine(exception.ToString());
             }
+        }
+
+        private void assignmentClick(object sender, RoutedEventArgs e)
+        {
+            var assignment = (Assignment)(sender as Button).Tag;
+            assignmentDetailsPage.Update_Model(assignment);
+        }
+
+        private void deleteCourse(object sender, RoutedEventArgs e)
+        {
+            if(selectedCourse != null)
+            {
+                if(service.deleteCourse(selectedCourse))
+                {
+                    courseViewModel.Name = "";
+                    courseViewModel.Description = "";
+                    courseViewModel.StartDate = "";
+                    courseViewModel.EndDate = "";
+                    courseViewModel.Professor = "";
+
+                    Populate_Course_List();
+                    MessageBox.Show("Course was deleted");
+                }
+                else
+                {
+                    MessageBox.Show("Course was not deleted");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No Course has been selected for deletion");
+            }
+        }
+
+        public static void c_ModelChanged(object sender, EventArgs e)
+        {
+            Instance = Instance.updateInstance(Instance);
+
+            Instance.selectedCourse = Instance.assignmentDetailsPage.Course;
+
+            Instance.Populate_Course_List();
+            Instance.updateUpcomingAssignmentList();
+        }
+
+        public static void c_ModelDeleted(object sender, EventArgs e)
+        {
+            Instance = Instance.updateInstance(Instance);
+
+            Instance.selectedCourse = Instance.assignmentDetailsPage.Course;
+            Instance.Populate_Course_List();
+            Instance.updateUpcomingAssignmentList();
+        }
+
+        public MainWindow updateInstance(MainWindow instance)
+        {
+            instance = this;
+            return instance;
         }
     }
 }

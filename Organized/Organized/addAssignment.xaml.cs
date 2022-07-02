@@ -23,6 +23,7 @@ namespace Organized
         businessService service;
 
         public Course updatedCourse { get; set; }
+
         public addAssignment(Course course)
         {
             selectedCourse = course;
@@ -30,6 +31,7 @@ namespace Organized
             InitializeComponent();
         }
 
+        /* Click listener, triggers when user selects add assignment button */
         private void addAssignmentClick(object sender, RoutedEventArgs e)
         {
             Assignment assignment = new Assignment()

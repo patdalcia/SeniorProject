@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\thegr\Senior_Project\Organize\Organized\Organized\obj\Release\net6.0-windows\
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\
 Organized
 none
 false
 TRACE;RELEASE;NET;NET6_0;NETCOREAPP
-C:\Users\thegr\Senior_Project\Organize\Organized\Organized\App.xaml
-2-1736015452
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\App.xaml
+6-886954232
 
-9-1911178257
+161702744987
 194-97651837
-addCourse.xaml;MainWindow.xaml;
+addAssignment.xaml;addCourse.xaml;assignmentDetailsPage.xaml;assignmentView.xaml;courseView.xaml;MainWindow.xaml;
 
 False
 

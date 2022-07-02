@@ -129,8 +129,8 @@ namespace Organized
             Assignment a = (Assignment)(sender as Button).Tag;
             //assignmentView assignmentView = new assignmentView(a);
             //var updatedCourse =assignmentView.ShowDialog();
-            assignmentDetailsPage assignmentDetailsPage = new assignmentDetailsPage(a);
-            assignmentDetailsFrame.Content = assignmentDetailsPage;
+           // assignmentDetailsPage assignmentDetailsPage = new assignmentDetailsPage(a);
+           // assignmentDetailsFrame.Content = assignmentDetailsPage;
         }
 
         private void getUpcomingAssignments()

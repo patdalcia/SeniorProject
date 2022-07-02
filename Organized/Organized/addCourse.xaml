@@ -82,6 +82,7 @@
         </Style>
     </Window.Resources>
     
+    <!-- Main Grid -->
     <Grid ShowGridLines="False"
           Background="Black">
         <Grid.ColumnDefinitions>
@@ -110,6 +111,7 @@
             <Image Source="Images/resizedLogo.png"/>
         </StackPanel>
 
+        <!-- Panel to organize user input fields -->
         <StackPanel Grid.Row="2"
                     Grid.Column="1"
                     Grid.ColumnSpan="2"
@@ -172,8 +174,5 @@
                     Click="createCourse"/>
 
         </StackPanel>
-
-
-
     </Grid>
 </Window>

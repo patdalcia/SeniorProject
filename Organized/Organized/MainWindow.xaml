@@ -88,10 +88,10 @@
         </Style>
 
         <Style TargetType="{x:Type Button}"
-               x:Key="courseListButtons">
+               >
             <Setter Property="Background" Value="Gray"/>
             <Setter Property="Foreground" Value="Gold"/>
-            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="MinHeight" Value="25"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Template">
@@ -107,7 +107,7 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Opacity" Value="1"/>
                     <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="FontWeight" Value="UltraBold"/>
                 </Trigger>
             </Style.Triggers>
             <Style.Resources>
@@ -163,13 +163,15 @@
                     HorizontalAlignment="Center"
                     FlowDirection="RightToLeft">
 
-            <Button Content="Dashboard"
-                    Style="{StaticResource navBarButtons}"
-                    />
-
             <Button Content="Add Course"
-                    Style="{StaticResource navBarButtons}"
-                    Click="addCourse"/>
+                    Click="addCourse"
+                    Background="Transparent"
+                    BorderBrush="Transparent"/>
+
+            <Button Content="Delete Course"
+                    Click="deleteCourse"
+                    Background="Transparent"
+                    BorderBrush="Transparent"/>
 
 
 
@@ -199,11 +201,54 @@
                 <DropShadowEffect/>
             </Border.Effect>
 
+            <StackPanel x:Name="courseInformationPanel">
+                <TextBlock Text="{Binding Path=Name}"
+                           FontSize="30"
+                           FontWeight="SemiBold"
+                           Foreground="Gold"
+                           Margin="2"
+                           Padding="1"/>
+                <TextBlock Text="{Binding Path=Description}"
+                           FontSize="20"
+                           FontWeight="Light"
+                           Foreground="Gold"
+                           Margin="2"
+                           Padding="1"/>
+                <TextBlock Text="{Binding Path=Professor}"
+                           FontSize="20"
+                           FontWeight="Light"
+                           Foreground="Gold"
+                           Margin="2"
+                           Padding="1"/>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding Path=StartDate}"
+                           FontSize="20"
+                           FontWeight="Light"
+                           Foreground="Gold"
+                           Margin="2"
+                           Padding="1"/>
+                    <TextBlock Text=" - "
+                           FontSize="20"
+                           FontWeight="Light"
+                           Foreground="Gold"
+                           Margin="2"
+                           Padding="1"/>
+                    <TextBlock Text="{Binding Path=EndDate}"
+                           FontSize="20"
+                           FontWeight="Light"
+                           Foreground="Gold"
+                           Margin="2"
+                           Padding="1"/>
+                    
+                </StackPanel>
+
+            </StackPanel>
 
         </Border>
 
         <!-- Asssignment List -->
-        <Label Content="Click Assignment to view Details" 
+        <Label Content="Click Course to view Details" 
                Grid.Row="5"
                Grid.Column="0"
                Grid.ColumnSpan="2"
@@ -254,20 +299,22 @@
                 BorderThickness="2"
                 Opacity="0.5"
                 CornerRadius="5"
-                Margin="10,30,10,10">
+                Margin="10,30,10,10"
+                x:Name="assignmentDetailsBorder">
             <Border.Effect>
                 <DropShadowEffect/>
             </Border.Effect>
 
             <Frame x:Name="assignmentDetailsFrame"
-                   Background="White"
-                   NavigationUIVisibility="Hidden">
-
+                   NavigationUIVisibility="Hidden"
+                   Background="White">
+                
             </Frame>
+           
 
         </Border>
 
-        <Label Content="Time Sensitive: These Assingments are DUE soon!" 
+        <Label Content="Time Sensitive: These Assignments are DUE soon!" 
                Grid.Row="8"
                Grid.Column="2"
                Grid.ColumnSpan="2"

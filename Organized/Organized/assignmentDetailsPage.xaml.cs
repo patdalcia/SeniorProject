@@ -20,78 +20,171 @@ namespace Organized
     /// </summary>
     public partial class assignmentDetailsPage : Page
     {
+        /* Event handlers used to update UI in Main Window */
+        public event EventHandler modelChanged;
+        public event EventHandler modelDeleted;
+
         Assignment selectedAssignment;
-        assignmentViewModel viewModel;
-        public assignmentDetailsPage(Assignment assignment)
+
+
+        public assignmentViewModel viewModel;
+        private businessService service;
+
+        private Course _course;
+        public Course Course
         {
-            selectedAssignment = assignment;
+            get => _course; 
+            set => _course = value; 
+        }
+
+        public assignmentDetailsPage()
+        {
+            service = new businessService();
+
             viewModel = new assignmentViewModel();
             DataContext = viewModel;
             InitializeComponent();
 
-            viewModel.Name = selectedAssignment.name;
-            viewModel.Description = selectedAssignment.description;
-            viewModel.DueDate = selectedAssignment.due_date;
-            viewModel.Completed = selectedAssignment.completed;
+            viewModel.Name = "";
+            viewModel.Description = "";
+            viewModel.DueDate = "";
+            viewModel.Completed = false;
 
 
             populateControls();           
         }
 
+        /* Populates all UI controls with current information from Course Object */
         private void populateControls()
         {
+            assignmentListPanel.Children.Clear();
+
             /* First: Populate basic course info panel */
-
-            //Assignment Name Label
-            Label nameLabel = new Label()
+            if (Course != null)
             {
-                FontSize = 30,
-                FontWeight = FontWeights.SemiBold,
-                Foreground = Brushes.Gold,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1),
-            };
-            var nameBindingObject = new Binding("Name");
-            nameLabel.SetBinding(Label.ContentProperty, nameBindingObject);
+                if (Course.assignments != null && Course.assignments.Count > 0)
+                {
+                    foreach (Assignment assignment in Course.assignments)
+                    {
+                        Button button = new Button()
+                        {
+                            Content = assignment.name,
+                            Tag = assignment,
 
+                        };
+                        button.Click += assignmentClick;
+                        assignmentListPanel.Children.Add(button);
+                    }
+                }
+                else
+                {
+                    TextBlock textBlock = new TextBlock();
+                    textBlock.Text = "No Active Assignments";
+                }
+            }
+        }
 
-            Label descriptionLabel = new Label()
+        /* Click listener, triggers when an assignment from the list has been selected. Updates viewModel with selected assignment information */
+        private void assignmentClick(object sender, RoutedEventArgs e)
+        {
+            Assignment assignment = (Assignment)(sender as Button).Tag;
+            viewModel.Name = assignment.name;
+            viewModel.Description = assignment.description;
+            viewModel.DueDate = assignment.due_date;
+            viewModel.Completed = assignment.completed;
+        }
+
+        /* Updates view model */
+        public void Update_Model(Assignment assignment)
+        {
+            viewModel.Name = assignment.name;
+            viewModel.Description = assignment.description;
+            viewModel.DueDate = assignment.due_date;
+            viewModel.Completed = assignment.completed;
+        }
+
+        /* Used to call private method populateControls(); */
+        public void Update_List()
+        {
+            populateControls();
+        }
+
+        /* Click Listener, triggers when addAssignment button is clicked */
+        private void addAssignmentClick(object sender, RoutedEventArgs e)
+        {
+            if(Course != null)
             {
-                FontSize = 13,
-                FontWeight = FontWeights.ExtraLight,
-                Foreground = Brushes.Black,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1)
-            };
-            var descriptionBindingObject = new Binding("Description");
-            descriptionLabel.SetBinding(Label.ContentProperty, descriptionBindingObject);
+                addAssignment addAssignment = new addAssignment(Course);
+                addAssignment.ShowDialog();
+                Course = addAssignment.updatedCourse;
 
-            Label dueDateLabel = new Label()
+                modelChanged?.Invoke(this, EventArgs.Empty);
+
+                populateControls();
+                
+            }
+            else
             {
-                FontSize = 13,
-                FontWeight = FontWeights.Light,
-                Foreground = Brushes.Black,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1)
-            };
-            var dueDateBindingObject = new Binding("DueDate");
-            dueDateLabel.SetBinding(Label.ContentProperty, dueDateBindingObject);
+                MessageBox.Show("A course must be selected to add an assignment, please select one from the list");
+            }
+        }
 
-            Label completedLabel = new Label()
+        /* Click Listener, Triggers when deleteAssignment button is clicked */
+        private void deleteAssignmentClick(object sender, RoutedEventArgs e)
+        {
+            var assignmentName = (String)(sender as Button).Tag;
+
+            if (assignmentName == null || assignmentName == "" || Course == null || Course.assignments == null || Course.assignments.Count == 0)
             {
-                FontSize = 13,
-                FontWeight = FontWeights.Light,
-                Foreground = Brushes.Black,
-                Margin = new Thickness(2),
-                Padding = new Thickness(1)
-            };
-            var completedBindingObject = new Binding("Completed");
-            completedLabel.SetBinding(Label.ContentProperty, completedBindingObject);
+                MessageBox.Show("No assignment has been selected");
+            }
+            else
+            {
+                Course = service.deleteAssignment(assignmentName, Course.name);
+                if (Course != null)
+                {
+                    Update_List();
 
-            assignmentNamePanel.Children.Add(nameLabel);
-            assignmentNamePanel.Children.Add(descriptionLabel);
-            assignmentNamePanel.Children.Add(dueDateLabel);
-            assignmentNamePanel.Children.Add(completedLabel);
+                    modelDeleted?.Invoke(this, EventArgs.Empty);   
+
+                    MessageBox.Show("Course Was Successfully deleted");
+                }
+                else
+                {
+                    Update_List();
+                    MessageBox.Show("Course was Not deleted");
+                }
+            }
+        }
+
+        /* Click Listener, triggers when completeAssignment button is clicked */
+        private void completeAssignmentClick(object sender, RoutedEventArgs e)
+        {
+            var search = (String)(sender as Button).Tag;
+
+            if(search == null || search == "" || Course == null || Course.assignments == null || Course.assignments.Count == 0)
+            {
+                MessageBox.Show("No assignment has been selected");
+            }
+            else
+            {
+                var assignmentToEdit = Course.assignments.Single(r => r.name == search);
+                Course.assignments.Remove(assignmentToEdit);
+
+                assignmentToEdit.completed = true;
+
+                Course.assignments.Add(assignmentToEdit);
+
+                if (service.updateCourse(Course))
+                {
+                    viewModel.Completed = true;
+                    MessageBox.Show("Course was Updated");
+                }
+                else
+                {
+                    MessageBox.Show("Course was not Updated");
+                }
+            }          
         }
     }
 }

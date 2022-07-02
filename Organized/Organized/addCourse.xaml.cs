@@ -21,12 +21,14 @@ namespace Organized
     public partial class addCourse : Window
     {
         private businessService service;
+
         public addCourse()
         {
             InitializeComponent();
             service = new businessService();
         }
 
+        /* Click listener, triggers when add course button is clicked */
         private void createCourse(object sender, RoutedEventArgs e)
         {
             try

@@ -29,5 +29,20 @@ namespace Organized
         {
             return service.addAssignment(course, assignment);
         }
+
+        public Course deleteAssignment(String assignment, String course)
+        {
+            return service.deleteAssignment(assignment, course);
+        }
+
+        public bool updateCourse(Course course)
+        {
+            return service.updateCourse(course);
+        }
+
+        public bool deleteCourse(Course course)
+        {
+            return service.deleteCourse(course);
+        }
     }
 }
