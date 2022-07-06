@@ -66,6 +66,14 @@
                     <Setter Property="CornerRadius" Value="10" />
                 </Style>
             </Style.Resources>
+
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" Value="{Binding 
+                Path=(Validation.Errors)[0].ErrorContent, 
+                RelativeSource={x:Static RelativeSource.Self}}" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <!-- Date Picker styling -->
@@ -80,6 +88,40 @@
                 </Style>
             </Style.Resources>
         </Style>
+
+
+        <Style x:Key="GeneralErrorStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Gold"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="MinHeight" Value="25"/>
+            
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Bottom"
+                                       HorizontalAlignment="Center"
+                                       Foreground="Red"
+                                       FontSize="10pt"
+                                       Opacity="0.75"
+                                       Text="{Binding ElementName=placeholder, 
+                                       Path= AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                            <AdornedElementPlaceholder x:Name="placeholder" />
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        
+        
+
     </Window.Resources>
     
     <!-- Main Grid -->
@@ -119,7 +161,11 @@
             <TextBlock Text="Course Title"
                        HorizontalAlignment="Center"
                        />
-            <TextBox x:Name="name"/>
+            <TextBox x:Name="name"
+                     Text="{Binding Path=Name,
+                        ValidatesOnDataErrors=True,
+                        UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource GeneralErrorStyle}"/>
 
         </StackPanel>
 
@@ -129,7 +175,11 @@
                     VerticalAlignment="Center">
             <TextBlock Text="Description of Course"
                        HorizontalAlignment="Center"/>
-            <TextBox x:Name="description"/>
+            <TextBox x:Name="description"
+                     Text="{Binding Path=Description,
+                        ValidatesOnDataErrors=True,
+                        UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource GeneralErrorStyle}"/>
 
         </StackPanel>
 
@@ -139,7 +189,11 @@
                     VerticalAlignment="Center">
             <TextBlock Text="Professor"
                        HorizontalAlignment="Center"/>
-            <TextBox x:Name="professor"/>
+            <TextBox x:Name="professor"
+                     Text="{Binding Path=Professor,
+                        ValidatesOnDataErrors=True,
+                        UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource GeneralErrorStyle}"/>
 
         </StackPanel>
 
@@ -149,7 +203,8 @@
                     VerticalAlignment="Center">
             <TextBlock Text="Start Date"
                        HorizontalAlignment="Center"/>
-            <DatePicker x:Name="startDate"/>
+            <DatePicker x:Name="startDate"
+                        Text="{Binding ValidatesOnDataErrors=True}"/>
 
         </StackPanel>
 
@@ -159,7 +214,8 @@
                     VerticalAlignment="Center">
             <TextBlock Text="End Date"
                        HorizontalAlignment="Center"/>
-            <DatePicker x:Name="endDate"/>
+            <DatePicker x:Name="endDate"
+                        Text="{Binding ValidatesOnDataErrors=True}"/>
 
         </StackPanel>
 

@@ -14,12 +14,11 @@ namespace Organized
     internal class businessDataService
     {
 
+        /* Path to JSON file containing course information */
         String fileName = "Courses.json";
-        public businessDataService()
-        {
+        public businessDataService(){}
 
-        }
-
+        /* GETS all courses */
         public bool addCourse(Course course)
         {
             string jsonString = JsonSerializer.Serialize(course);
@@ -42,7 +41,8 @@ namespace Organized
 
                 return true;     
         }
-        
+
+        /* ADDS course to list */
         public List<Course> getCourses()
         {
             try
@@ -62,6 +62,7 @@ namespace Organized
             }
         }
 
+        /* ADDS assignment to Course.assignments */
         public Course addAssignment(Course course, Assignment assignment)
         {
             try
@@ -107,6 +108,7 @@ namespace Organized
             }
         }
 
+        /* UPDATES JSON file with updated course list */
         private bool updateSavedCourses(List<Course> courses)
         {
             try
@@ -144,6 +146,7 @@ namespace Organized
               
         }
 
+        /* DELETES assignment from Course.assignments */
         public Course deleteAssignment(String assignment, String course)
         {
             try
@@ -176,6 +179,7 @@ namespace Organized
             
         }
 
+        /* UPDATES Course in list, with updated Course object */
         public bool updateCourse(Course course)
         {
             //Retrieving course List
@@ -198,6 +202,7 @@ namespace Organized
             }
         }
 
+        /* DELETES Course from course list */
         public bool deleteCourse(Course course)
         {
             //Retrieving course List
@@ -213,6 +218,62 @@ namespace Organized
             else
             {
                 return false;
+            }
+        }
+
+        /* UPDATES course after updateCourse dialog is shown and closed */
+        public bool updateCourseFromDialog(Course course, Course courseToBeUpdated)
+        {
+            //Retrieving course List
+            List<Course> cList = this.getCourses();
+
+            var courseToEdit = cList.Single(r => r.name == course.name);
+            cList.Remove(courseToEdit);
+
+            courseToEdit = courseToBeUpdated;
+
+            cList.Add(courseToEdit);
+
+            if (updateSavedCourses(cList))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /* UPDATES course in list */
+        public List<Assignment> updateAssignment(Course course, Assignment assignment, String aName)
+        {
+            try
+            {
+                //Retrieving course List
+                List<Course> cList = this.getCourses();
+
+                var courseToEdit = cList.Single(r => r.name == course.name);
+                cList.Remove(courseToEdit);
+
+                var assignmentToRemove = courseToEdit.assignments.Single(r => r.name == aName);
+                courseToEdit.assignments.Remove(assignmentToRemove);
+
+                courseToEdit.assignments.Add(assignment);
+                cList.Add(courseToEdit);
+
+                if (updateSavedCourses(cList))
+                {
+                    return courseToEdit.assignments;
+                }
+                else
+                {
+                    return course.assignments;
+                }
+            }
+            catch(Exception e)
+            {
+                Trace.WriteLine(e.ToString());
+                return course.assignments;
             }
         }
     }

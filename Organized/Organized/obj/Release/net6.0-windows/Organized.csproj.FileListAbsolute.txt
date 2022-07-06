@@ -52,3 +52,7 @@ C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6
 C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\Organized.pdb
 C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\Organized.genruntimeconfig.cache
 C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\ref\Organized.dll
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\updateCourse.g.cs
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\updateCourse.baml
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\updateAssignment.g.cs
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Release\net6.0-windows\updateAssignment.baml

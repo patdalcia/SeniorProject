@@ -116,11 +116,15 @@ namespace Organized
             {
                 addAssignment addAssignment = new addAssignment(Course);
                 addAssignment.ShowDialog();
-                Course = addAssignment.updatedCourse;
 
-                modelChanged?.Invoke(this, EventArgs.Empty);
+                if(addAssignment.updatedCourse != null)
+                {
+                    Course = addAssignment.updatedCourse;
 
-                populateControls();
+                    modelChanged?.Invoke(this, EventArgs.Empty);
+
+                    populateControls();
+                }
                 
             }
             else
@@ -185,6 +189,61 @@ namespace Organized
                     MessageBox.Show("Course was not Updated");
                 }
             }          
+        }
+
+        private void updateAssignmentClick(object sender, RoutedEventArgs e)
+        {
+            var assignmentName = (String)(sender as Button).Tag;
+
+            if (assignmentName == null || assignmentName == "" || Course == null || Course.assignments == null || Course.assignments.Count == 0)
+            {
+                MessageBox.Show("No assignment has been selected");
+            }
+            else
+            {
+                Assignment a = new Assignment();
+                foreach(var assignment in Course.assignments)
+                {
+                    if(assignment.name == assignmentName)
+                    {
+                        a.name = assignment.name;
+                        a.description = assignment.description;
+                        a.due_date = assignment.due_date;
+                        a.completed = assignment.completed;
+                        break;
+                    }
+                }
+                updateAssignment uAssignment = new updateAssignment(a);
+                uAssignment.ShowDialog();
+
+                if (uAssignment.updatedAssignment != null)
+                {
+                    List<Assignment> aList = service.updateAssignment(Course, uAssignment.updatedAssignment, assignmentName);
+                    if (aList != Course.assignments)
+                    {
+                        Course.assignments = aList;
+
+                        viewModel.Name = uAssignment.updatedAssignment.name;
+                        viewModel.Description = uAssignment.updatedAssignment.description;
+                        viewModel.DueDate = uAssignment.updatedAssignment.due_date;
+                        viewModel.Completed = uAssignment.updatedAssignment.completed;
+
+                        Update_List();
+                        modelChanged?.Invoke(this, EventArgs.Empty);
+
+                        MessageBox.Show("Course Was Updated");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Course Was Not Updated");
+                    }
+                }
+                else
+                {
+                    Update_List();
+                    MessageBox.Show("Course was Not Updated");
+                }
+            }
         }
     }
 }

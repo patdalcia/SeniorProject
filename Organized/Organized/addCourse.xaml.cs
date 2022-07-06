@@ -21,9 +21,13 @@ namespace Organized
     public partial class addCourse : Window
     {
         private businessService service;
+        private CourseViewModel courseViewModel;
 
         public addCourse()
         {
+            courseViewModel = new CourseViewModel();
+            DataContext = courseViewModel;
+
             InitializeComponent();
             service = new businessService();
         }
@@ -34,6 +38,8 @@ namespace Organized
             try
             {
                 List<Assignment> aList = new List<Assignment>();
+
+                courseViewModel.Name = name.Text;
 
                 Course course = new Course()
                 {

@@ -23,6 +23,7 @@ namespace Organized
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public static MainWindow Instance { get; private set;}
 
 
@@ -63,11 +64,7 @@ namespace Organized
             Instance = this;
         }
 
-        private void Logo_Click(object sender, RoutedEventArgs e)
-        {
-            Trace.WriteLine("Button Clicked");
-        }
-
+        /* iterates through assignment list, creating a button for each iteration */
         private void Populate_Course_List()
         {
             List<Course> courseList = service.getCourses();
@@ -95,6 +92,7 @@ namespace Organized
             
         }
 
+        /* Shows add Course dialog page, and triggers a refresh of controls after course is added */
         private void addCourse(object sender, RoutedEventArgs e)
         {
             addCourse addCourseView = new addCourse();
@@ -104,6 +102,7 @@ namespace Organized
             Populate_Course_List();
         }
 
+        /* Determines which assignments are due within 5 days, creates button for each assignment */
         private void updateUpcomingAssignmentList()
         {
 
@@ -144,6 +143,7 @@ namespace Organized
             }
         }
 
+        /* Click listener for Course buttons, updates courseViewModel/assignmentViewModel with selected course */
         private void courseClick(object sender, RoutedEventArgs e)
         {
             try
@@ -167,15 +167,65 @@ namespace Organized
             }
         }
 
+        /* Click listener for navbar buttons, shows updateCourse dialog and passes returned Course object to business service */
+        private void updateCourse(object sender, RoutedEventArgs e)
+        {
+            /* Ensuring Course has been selected for update */
+            if (selectedCourse != null && selectedCourse.name != null && selectedCourse.professor != null && selectedCourse.end_date != null)
+            {
+                Course courseSnapshot = new Course();
+                courseSnapshot.name = selectedCourse.name;
+                courseSnapshot.description = selectedCourse.description;
+                courseSnapshot.professor = selectedCourse.professor;
+                courseSnapshot.start_date = selectedCourse.start_date;
+                courseSnapshot.end_date = selectedCourse.end_date;
+                courseSnapshot.assignments = selectedCourse.assignments;
+
+
+                updateCourse u = new updateCourse(selectedCourse);
+                u.ShowDialog();
+
+                if(u.updatedCourse != null)
+                {
+                    if (service.updateCourseFromDialog(courseSnapshot, u.updatedCourse))
+                    {
+                        selectedCourse = u.updatedCourse;
+                        courseViewModel.Name = selectedCourse.name;
+                        courseViewModel.Description = selectedCourse.description;
+                        courseViewModel.StartDate = selectedCourse.start_date;
+                        courseViewModel.EndDate = selectedCourse.end_date;
+                        courseViewModel.Professor = selectedCourse.professor;
+
+                        MessageBox.Show("Course has been Updated");
+                        Populate_Course_List();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Course has not been updated");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Course has not been updated");
+                }
+            }
+            else
+            {
+                MessageBox.Show("No Course has been selected for update");
+            }
+        }
+
+        /* Updates the assignmentDetailsPage viewModel with selected assignment information */
         private void assignmentClick(object sender, RoutedEventArgs e)
         {
             var assignment = (Assignment)(sender as Button).Tag;
             assignmentDetailsPage.Update_Model(assignment);
         }
 
+        /* Click listener for delete course button, deletes course from courseList and triggers UI update */
         private void deleteCourse(object sender, RoutedEventArgs e)
         {
-            if(selectedCourse != null)
+            if(selectedCourse != null && selectedCourse.name != null && selectedCourse.professor != null && selectedCourse.end_date != null)
             {
                 if(service.deleteCourse(selectedCourse))
                 {
@@ -199,6 +249,7 @@ namespace Organized
             }
         }
 
+        /* Event handler, updates course list when changes have been made in assignmentDetailsPage */
         public static void c_ModelChanged(object sender, EventArgs e)
         {
             Instance = Instance.updateInstance(Instance);
@@ -209,6 +260,7 @@ namespace Organized
             Instance.updateUpcomingAssignmentList();
         }
 
+        /* Event handler, updates course list when changes have been made in assignmentDetailsPage */
         public static void c_ModelDeleted(object sender, EventArgs e)
         {
             Instance = Instance.updateInstance(Instance);
@@ -218,6 +270,7 @@ namespace Organized
             Instance.updateUpcomingAssignmentList();
         }
 
+        /* updates instance with current app instance */
         public MainWindow updateInstance(MainWindow instance)
         {
             instance = this;

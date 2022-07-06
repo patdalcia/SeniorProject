@@ -85,7 +85,7 @@
 
 
     <!-- Main Grid -->
-    <Grid ShowGridLines="True"
+    <Grid ShowGridLines="False"
           Background="Black">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

@@ -132,6 +132,13 @@
                             Background="Transparent"
                             VerticalAlignment="Center"/>
 
+                <Button Content="Update Assignment"
+                            Foreground="Black"
+                            Tag="{Binding Path=Name}"
+                            Click="updateAssignmentClick"
+                            Background="Transparent"
+                            VerticalAlignment="Center"/>
+
             </StackPanel>
         </Border>
 

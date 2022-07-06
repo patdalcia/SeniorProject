@@ -173,6 +173,11 @@
                     Background="Transparent"
                     BorderBrush="Transparent"/>
 
+            <Button Content="Update Course"
+                    Click="updateCourse"
+                    Background="Transparent"
+                    BorderBrush="Transparent"/>
+
 
 
         </StackPanel>
