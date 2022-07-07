@@ -112,32 +112,37 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center">
 
+
                 <Button Content="Add Assignment"
                             Foreground="Black"
                             Click="addAssignmentClick"
                             Background="Transparent"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center"
+                            FontSize="10"/>
 
                 <Button Content="Complete Assignment"
                             Foreground="Black"
                             Tag="{Binding Path=Name}"
                             Click="completeAssignmentClick"
                             Background="Transparent"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center"
+                            FontSize="10"/>
 
                 <Button Content="Delete Assignment"
                             Foreground="Black"
                             Tag="{Binding Path=Name}"
                             Click="deleteAssignmentClick"
                             Background="Transparent"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center"
+                            FontSize="10"/>
 
                 <Button Content="Update Assignment"
                             Foreground="Black"
                             Tag="{Binding Path=Name}"
                             Click="updateAssignmentClick"
                             Background="Transparent"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center"
+                            FontSize="10"/>
 
             </StackPanel>
         </Border>
