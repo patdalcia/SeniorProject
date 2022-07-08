@@ -246,6 +246,22 @@ namespace Organized
                     MessageBox.Show("Course was Not Updated");
                 }
             }
-        }       
+        }
+
+        private void assignmentNotesClick(object sender, RoutedEventArgs e)
+        {
+            var assignmentName = (String)(sender as Button).Tag;
+
+            if (assignmentName == null || assignmentName == "" || Course == null || Course.assignments == null || Course.assignments.Count == 0)
+            {
+                MessageBox.Show("No assignment has been selected");
+            }
+            else
+            {
+                string localData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                var notePath = localData + @"\OrganizedNotes\" + Course.name + "\\" + assignmentName;
+                Process.Start("explorer.exe", notePath);
+            }
+        }
     }
 }

@@ -199,9 +199,11 @@
 
                 <StackPanel Grid.Column="1"
                             VerticalAlignment="Center">
+                    <Button Content="Check Assignment Notes"
+                            Tag="{Binding Path=Name}"
+                            Click="assignmentNotesClick"/>
 
                 </StackPanel>
-
             </Grid>
         </Border>
 
