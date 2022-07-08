@@ -83,7 +83,6 @@
                 CornerRadius="5"
                 Padding="5">
 
-
             <StackPanel x:Name="assignmentListPanel">
                 <Label Content="Course Information"
                        Grid.Row="2"
@@ -94,10 +93,7 @@
                        Foreground="Gold"
                        Margin="15,0,0,0"
                        Opacity="0.5"/>
-
-
             </StackPanel>
-
         </Border>
 
         <!-- Border for navbar buttons -->
