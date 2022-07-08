@@ -116,3 +116,5 @@ C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Debug\net6.0
 C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Debug\net6.0-windows\updateCourse.baml
 C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Debug\net6.0-windows\updateAssignment.g.cs
 C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Debug\net6.0-windows\updateAssignment.baml
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\bin\Debug\net6.0-windows\FontAwesome.WPF.dll
+C:\Users\thegr\Senior_Project\SeniorProject\Organized\Organized\obj\Debug\net6.0-windows\Organized.csproj.CopyComplete

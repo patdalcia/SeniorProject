@@ -157,8 +157,8 @@
 
         <!-- Nav Bar Links -->
         <StackPanel Grid.Row="1"
-                    Grid.Column="4"
-                    Grid.ColumnSpan="3"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="4"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     FlowDirection="RightToLeft">
@@ -175,6 +175,11 @@
 
             <Button Content="Update Course"
                     Click="updateCourse"
+                    Background="Transparent"
+                    BorderBrush="Transparent"/>
+            
+            <Button Content="Check Course Notes"
+                    Click="Open_File_Explorer_Click"
                     Background="Transparent"
                     BorderBrush="Transparent"/>
 

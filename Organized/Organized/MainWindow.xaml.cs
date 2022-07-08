@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -275,6 +276,41 @@ namespace Organized
         {
             instance = this;
             return instance;
+        }
+
+        private void Open_File_Explorer_Click(object sender, RoutedEventArgs e)
+        {
+            if (selectedCourse == null || selectedCourse.name == null && selectedCourse.professor == null && selectedCourse.description == null)
+            {
+                MessageBox.Show("Course must be selected before Notes can be accessed");
+            }
+            else
+            {
+                if(selectedCourse.assignments.Count > 0)
+                {
+                    foreach(Assignment a in selectedCourse.assignments)
+                    {
+                        string lData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                        var nPath = lData + @"\OrganizedNotes\" + selectedCourse.name;
+                        var assignmentPath = nPath;
+                        assignmentPath = assignmentPath + "\\" + a.name;
+                        if (!Directory.Exists(assignmentPath))
+                        {
+                            DirectoryInfo di = Directory.CreateDirectory(assignmentPath);
+                        }        
+                    }
+                    string localData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    var notePath = localData + @"\OrganizedNotes\" + selectedCourse.name;
+                    Process.Start("explorer.exe", notePath);
+                }
+                else
+                {
+                    string localData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                    var notePath = localData + @"\OrganizedNotes\" + selectedCourse.name;
+                    Process.Start("explorer.exe", notePath);
+                }
+                
+            }
         }
     }
 }
