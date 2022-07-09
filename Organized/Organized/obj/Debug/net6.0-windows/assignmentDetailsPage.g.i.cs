@@ -61,7 +61,7 @@ namespace Organized {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Organized;V1.0.0.0;component/assignmentdetailspage.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Organized;component/assignmentdetailspage.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\assignmentDetailsPage.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

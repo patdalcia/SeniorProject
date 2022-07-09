@@ -13,5 +13,10 @@ namespace Organized
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            SplashScreen2 splash = new SplashScreen2("Images/SplashScreenImage.png");
+            splash.Show(TimeSpan.FromSeconds(3));//Show for at least 2 seconds min duration
+        }
     }
 }

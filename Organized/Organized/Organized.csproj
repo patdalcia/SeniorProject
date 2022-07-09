@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="Images\resizedLogo.png" />
+    <None Remove="Images\SplashScreenImage.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +20,7 @@
     <Resource Include="Images\resizedLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\SplashScreenImage.png" />
   </ItemGroup>
 
 </Project>

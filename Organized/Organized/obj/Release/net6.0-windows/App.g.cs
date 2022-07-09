@@ -62,6 +62,8 @@ namespace Organized {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "6.0.6.0")]
         public static void Main() {
+            SplashScreen splashScreen = new SplashScreen("organizedsplashscreen.png");
+            splashScreen.Show(true);
             Organized.App app = new Organized.App();
             app.InitializeComponent();
             app.Run();
