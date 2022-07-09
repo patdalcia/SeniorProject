@@ -260,6 +260,12 @@ namespace Organized
             {
                 string localData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 var notePath = localData + @"\OrganizedNotes\" + Course.name + "\\" + assignmentName;
+
+                if (!Directory.Exists(notePath))
+                {
+                    DirectoryInfo di = Directory.CreateDirectory(notePath);
+                }
+
                 Process.Start("explorer.exe", notePath);
             }
         }
